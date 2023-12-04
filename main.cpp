@@ -37,7 +37,8 @@ void downloadCarList();
 void uploadCarList();
 
 bool isValidEmail(const std::string& email);
-bool isValidEightDigitString(const std::string& input);
+bool isValidEightDigitString(const string& input);
+bool isDigit(string test);
 int checkExistCar(string);
 void inputCarSetting(Setting* &);
 
@@ -140,14 +141,52 @@ void NhapThongTinCaiDat_Sound()
 			delete newCar;
 			int med, cal, nav, noti;
 			cout << "	->This care already existed, data will be overwritten" << endl;
-			cout << "Media sound level: ";
-			cin >> med;
-			cout << endl << "Call sound level:";
-			cin >> cal;
-			cout << endl << "Navigation sound level: ";
-			cin >> nav;
-			cout << endl << "Notification sound level: ";
-			cin >> noti;
+			string test;
+			while (1) {
+				cout << "Media sound level: ";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					med = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			while (1) {
+				cout << "Call sound level:";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					cal = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			while (1) {
+				cout << "Navigation sound level: ";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					nav = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			while (1) {
+				cout << "Notification sound level: ";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					noti = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+						
 			Sound newSound(med, cal, nav, noti);
 			carList[index]->setSoudIF(newSound);
 			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)";
@@ -164,15 +203,51 @@ void NhapThongTinCaiDat_Sound()
 			carList[carListCount]->setSetting(newCar->getCarName(), newCar->getPersonalKey(), newCar->getMail(), newCar->getODO(), newCar->getServiceRemind());
 			delete newCar;
 			int med, cal, nav, noti;
-			cout << "	->This is new car, data will be appended to your list" << endl;
-			cout << "Media sound level: ";
-			cin >> med;
-			cout << endl << "Call sound level:";
-			cin >> cal;
-			cout << endl << "Navigation sound level: ";
-			cin >> nav;
-			cout << endl << "Notification sound level: ";
-			cin >> noti;
+			string test;
+			while (1) {
+				cout << "Media sound level: ";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					med = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			while (1) {
+				cout << "Call sound level:";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					cal = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			while (1) {
+				cout << "Navigation sound level: ";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					nav = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			while (1) {
+				cout << "Notification sound level: ";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					noti = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
 			Sound newSound(med, cal, nav, noti);
 			carList[index]->setSoudIF(newSound);
 			carListCount++;
@@ -223,12 +298,42 @@ void NhapThongTinCaiDat_Display()
 			delete newCar;
 			int light, screen, taplo;
 			cout << "	->This care already existed, data will be overwritten" << endl;
-			cout << "Light level: ";
-			cin >> light;
-			cout << endl << "Screen light level:";
-			cin >> screen;
-			cout << endl << "Taplo light level: ";
-			cin >> taplo;
+			
+			string test;
+			while (1) {
+				cout << "Light level: ";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					light = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			while (1) {
+				cout << "Screen light level:";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					screen = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			while (1) {
+				cout << "Taplo light level: ";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					taplo = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+						
 			Display newDisplay(light, screen, taplo);
 			carList[index]->setDisplayIF(newDisplay);
 			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)"	;
@@ -245,13 +350,40 @@ void NhapThongTinCaiDat_Display()
 			carList[carListCount]->setSetting(newCar->getCarName(), newCar->getPersonalKey(), newCar->getMail(), newCar->getODO(), newCar->getServiceRemind());
 			delete newCar;
 			int light, screen, taplo;
-			cout << "	->This is new car, data will be appended to your list" << endl;
-			cout << "Light level: ";
-			cin >> light;
-			cout << endl << "Screen light level: ";
-			cin >> screen;
-			cout << endl << "Taplo light level: ";
-			cin >> taplo;
+			string test;
+			while (1) {
+				cout << "Light level: ";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					light = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			while (1) {
+				cout << "Screen light level:";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					screen = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			while (1) {
+				cout << "Taplo light level: ";
+				getline(cin, test);
+				if (isDigit(test) == 1)
+				{
+					taplo = stoi(test);
+					break;
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
 			Display newDisplay(light, screen, taplo);
 			carList[carListCount]->setDisplayIF(newDisplay);
 			carListCount++;
@@ -448,6 +580,13 @@ bool isValidEightDigitString(const std::string& input) {  // Biểu thức chín
 	return std::regex_match(input, eightDigitRegex);
 }
 
+bool isDigit(string test) {
+	std::regex numericRegex("^[0-9]+$");
+
+	// Sử dụng hàm std::regex_match để kiểm tra
+	return std::regex_match(test, numericRegex);
+}
+
 int checkExistCar(string key) {
 	for (int i = 0; i < carListCount; i++) {
 		if (key == carList[i]->getPersonalKey()) {
@@ -469,26 +608,46 @@ void inputCarSetting(Setting* & newCar) {
 	cout << "Owner name: ";
 	getline(cin,name);
 	while (1) { // tao vong while de check email
-		cout << endl << "Email: ";
+		cout  << "Email: ";
 		getline(cin,mail);
 		if (isValidEmail(mail))
 			break;
 		else
-			cout << "Invalid email address, please re-enter ! ";
+			cout << "Invalid email address, please re-enter ! " << endl;
 	}
 
 	while (1) { // tao vong while de check ma so ca nhan
-		cout << endl << "Key number: ";
+		cout  << "Key number: ";
 		getline(cin,key);
 		if (isValidEightDigitString(key))
 			break;
 		else
-			cout << "Invalid key number (8 digits), please re-enter ! ";
+			cout << "Invalid key number (8 digits), please re-enter ! " << endl;
 	}
-	cout << endl << "ODO number: ";
-	cin >> odo;
-	cout << endl << "Remind service (km): ";
-	cin >> reS;
+	string test;
+	while (1){
+		cout << "ODO number: ";
+		getline(cin, test);
+		if (isDigit(test) == 1)
+		{
+			odo = stoi(test);
+			break;
+		}
+		else
+			cout << "Invalid, please re-enter ! " << endl;
+	}
+	while (1) {
+		cout << "Remind service (km): ";
+		getline(cin, test);
+		if (isDigit(test) == 1)
+		{
+			reS = stoi(test);
+			break;
+		}
+		else
+			cout << "Invalid, please re-enter ! " << endl;
+	}
+	
 	newCar = new Car;
 	newCar->setSetting(name, key, mail, odo, reS);
 }
