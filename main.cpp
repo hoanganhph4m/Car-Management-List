@@ -9,6 +9,7 @@
 #include <regex>
 #include <iomanip>
 
+
 using namespace std;
 
 Car** carList = new Car* [100];
@@ -16,7 +17,7 @@ Car** carList = new Car* [100];
 int carListCount = 0;
 
 vector<CommonInfo> timezoneList;
-vector<CommonInfo> languageList;
+vector<string> languageList;
 
 void NhapThongTinCaiDat();
 void XuatThongTinCaiDat();
@@ -139,8 +140,9 @@ void NhapThongTinCaiDat_Sound()
 			carList[index]->setSetting(newCar->getCarName(), newCar->getPersonalKey(), newCar->getMail(), newCar->getODO(), newCar->getServiceRemind());// trong truong hop da trung key thi nap lai thong tin setting vao vi tri da co
 
 			delete newCar;
-			int med, cal, nav, noti;
 			cout << "	->This care already existed, data will be overwritten" << endl;
+			int med, cal, nav, noti;
+			
 			string test;
 			while (1) {
 				cout << "Media sound level: ";
@@ -202,6 +204,7 @@ void NhapThongTinCaiDat_Sound()
 			carList[carListCount] = new Car; // trong truong hop chua co thi tao 1 thong tin xe moi va nap du lieu vao listcar
 			carList[carListCount]->setSetting(newCar->getCarName(), newCar->getPersonalKey(), newCar->getMail(), newCar->getODO(), newCar->getServiceRemind());
 			delete newCar;
+			cout << "	->This is new car, data will be appended to your list" << endl;
 			int med, cal, nav, noti;
 			string test;
 			while (1) {
@@ -249,7 +252,7 @@ void NhapThongTinCaiDat_Sound()
 					cout << "Invalid, please re-enter ! " << endl;
 			}
 			Sound newSound(med, cal, nav, noti);
-			carList[index]->setSoudIF(newSound);
+			carList[carListCount]->setSoudIF(newSound);
 			carListCount++;
 			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)";
 
@@ -266,13 +269,142 @@ void NhapThongTinCaiDat_Sound()
 
 void NhapThongTinCaiDat_General()
 {
-	char continues = 'n';
-	do {
-		cout << " NHAP THONG TIN GENERAL, XE SO " << carListCount + 1 << endl;
-		// Your code
-		cin >> continues;
-		cout << endl;
-	} while (continues == 'y');
+	while (1)
+	{
+		system("cls");
+		cout << " --- Input General Setting --- " << endl;
+		Setting* newCar;							//tao obj Setting de luu thong tin setting xe
+		inputCarSetting(newCar);					//goi ham input de chuyen nhap thong tin setting xe 
+		int index;
+		if (carListCount == 0) {
+			index = -1;
+		}
+		else
+			index = checkExistCar(newCar->getPersonalKey());//kiem tra xem thong tin xe moi nhap vao da ton tai hay chua
+
+		if (index != -1) { // truong hop neu trung thi sao chep setting luu vao o trung roi xoa bo nho dong da cap phat cho newCar
+
+			carList[index]->setSetting(newCar->getCarName(), newCar->getPersonalKey(), newCar->getMail(), newCar->getODO(), newCar->getServiceRemind());// trong truong hop da trung key thi nap lai thong tin setting vao vi tri da co
+
+			delete newCar;
+			
+			cout << "	->This car already existed, data will be overwritten" << endl;
+
+			string lan, time;
+			
+			cout << "--- Select language data --" << endl;
+			for (int i = 0;i < languageList.size();i++) {
+				cout << i + 1 << ": " << languageList[i] << endl;
+			}
+			while(1){
+				cout << "Your selection: ";
+				getline(cin, lan);
+				if (isDigit(lan) == 1)
+				{
+					if (stoi(lan) > 0 && stoi(lan) < languageList.size() + 1)
+						break;
+					else
+					{
+						cout << "Invalid, please re-enter ! " << endl;
+					}
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			
+			cout << "--- Select timezone data ---" << endl;
+			for (int i = 0;i < timezoneList.size();i++) {
+				cout << i + 1 << ": " << timezoneList[i].getData() << endl;
+			}
+
+			while (1) {
+				cout << "Your selection: ";
+				getline(cin, time);
+				if (isDigit(time) == 1)
+				{
+					if (stoi(time) > 0 && stoi(time) < timezoneList.size() + 1)
+						break;
+					else
+					{
+						cout << "Invalid, please re-enter ! " << endl;
+					}
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+
+			General newGeneral(languageList[stoi(lan)-1], timezoneList[stoi(time)-1].getData());
+			carList[index]->setGeneralIF(newGeneral);
+			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)";
+
+			char continues;
+			cin >> continues;
+			if (continues == 'y') {}
+			else {
+				break;
+			}
+		}
+		else {
+			carList[carListCount] = new Car; // trong truong hop chua co thi tao 1 thong tin xe moi va nap du lieu vao listcar
+			carList[carListCount]->setSetting(newCar->getCarName(), newCar->getPersonalKey(), newCar->getMail(), newCar->getODO(), newCar->getServiceRemind());
+			delete newCar;
+			cout << "	->This is new car, data will be appended to your list" << endl;
+			string lan, time;
+
+			cout << "--- Select language data --" << endl;
+			for (int i = 0;i < languageList.size();i++) {
+				cout << i + 1 << ": " << languageList[i] << endl;
+			}
+			while (1) {
+				cout << "Your selection: ";
+				getline(cin, lan);
+				if (isDigit(lan) == 1)
+				{
+					if (stoi(lan) > 0 && stoi(lan) < languageList.size() + 1)
+						break;
+					else
+					{
+						cout << "Invalid, please re-enter ! " << endl;
+					}
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+
+			cout << "--- Select timezone data ---" << endl;
+			for (int i = 0;i < timezoneList.size();i++) {
+				cout << i + 1 << ": " << timezoneList[i].getData() << endl;
+			}
+
+			while (1) {
+				cout << "Your selection: ";
+				getline(cin, time);
+				if (isDigit(time) == 1)
+				{
+					if (stoi(time) > 0 && stoi(time) < timezoneList.size() + 1)
+						break;
+					else
+					{
+						cout << "Invalid, please re-enter ! " << endl;
+					}
+				}
+				else
+					cout << "Invalid, please re-enter ! " << endl;
+			}
+			General newGeneral(languageList[stoi(lan) - 1], timezoneList[stoi(time) - 1].getData());
+			carList[carListCount]->setGeneralIF(newGeneral);
+			carListCount++;
+			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)";
+
+			char continues;
+			cin >> continues;
+			if (continues == 'y') {}
+			else {
+				break;
+			}
+		}
+	}
+	uploadCarList();
 }
 
 
@@ -296,9 +428,9 @@ void NhapThongTinCaiDat_Display()
 			carList[index]->setSetting(newCar->getCarName(), newCar->getPersonalKey(), newCar->getMail(), newCar->getODO(), newCar->getServiceRemind());// trong truong hop da trung key thi nap lai thong tin setting vao vi tri da co
 			
 			delete newCar;
-			int light, screen, taplo;
-			cout << "	->This care already existed, data will be overwritten" << endl;
 			
+			cout << "	->This care already existed, data will be overwritten" << endl;
+			int light, screen, taplo;
 			string test;
 			while (1) {
 				cout << "Light level: ";
@@ -349,6 +481,7 @@ void NhapThongTinCaiDat_Display()
 			carList[carListCount] = new Car; // trong truong hop chua co thi tao 1 thong tin xe moi va nap du lieu vao listcar
 			carList[carListCount]->setSetting(newCar->getCarName(), newCar->getPersonalKey(), newCar->getMail(), newCar->getODO(), newCar->getServiceRemind());
 			delete newCar;
+			cout << "	->This is new car, data will be appended to your list" << endl;
 			int light, screen, taplo;
 			string test;
 			while (1) {
@@ -401,50 +534,50 @@ void NhapThongTinCaiDat_Display()
 }
 
 
-const vector<string> explode(const string& s, const char& c)
-{
-	string buff{ "" };
-	vector<string> v;
-
-	for (auto n : s)
-	{
-		if (n != c)
-			buff += n;
-		else if (n == c && buff != "")
-		{
-			v.push_back(buff);
-			buff = "";
-		}
-	}
-	if (buff != "")
-		v.push_back(buff);
-
-	return v;
-}
 
 void downloadTimeZone() {
 	ifstream f;
 	f.open("timezones.txt");
 	// Your code
 	string a;
+	
 	while (f.eof()== false) {
 		getline(f, a);
 		CommonInfo info;
-		vector<string> data = explode(a, '/');
-		if (data.size() >= 2) {
-			info.setNumber(data[0]);
-			info.setName(data[1]);
-		}
+		info.setData(a);
+		string hour = a.substr(4, 6) + a.substr(8, 9);
+		hour.erase(3, 1);
+		info.setHour(stoi(hour)); // lay phan gio trong mui gio de sort lại list
 		timezoneList.push_back(info);
 	}
 	f.close();
+
+	
+		int i, j, last;
+		for (i = 1; i < timezoneList.size(); i++) {
+			last = timezoneList[i].getHour();
+			j = i;
+			while ((j > 0) && (timezoneList[j - 1].getHour() > last)) {
+				timezoneList[j].setHour(timezoneList[j - 1].getHour());
+				j = j - 1;
+			}
+			timezoneList[j].setHour(last);
+		} // end for
+	
 }
 
 void downloadLanguage() {
 	ifstream f;
 	f.open("languages.txt");
-	// Your code
+	string a;
+	while (f.eof() == false) {
+		getline(f, a);		
+		languageList.push_back(a);		
+	}
 	f.close();
+	vector<string>::iterator p1 = languageList.begin();
+	vector<string>::iterator p2 = languageList.end();
+	sort(p1, p2);	
 }
 
 void downloadCarList() {
@@ -522,6 +655,9 @@ void XuatThongTinCaiDat() {
 		else if (selection == '4') {
 			XuatThongTatCaTinCaiDat();
 		}
+		else if (selection == '0') {
+			break;
+		}
 		else {
 			cout << endl << "Invalid ! Please try a gain ";
 			system("pause");
@@ -541,11 +677,11 @@ void XuatThongTinCaiDat_Sound() {
 }
 
 void XuatThongTinCaiDat_General() {
-	cout << setw(20) << left << "TEN CHU XE" << setw(25) << left << "Email" << setw(15) << left << "MSC" << setw(10) << left << "ODO" << setw(10) << left << "SEVICES" << setw(30) << left << "TimeZone" << setw(20) << left << "Language" << endl;
+	cout << setw(20) << left << "TEN CHU XE" << setw(25) << left << "Email" << setw(15) << left << "MSC" << setw(10) << left << "ODO" << setw(15) << left << "SEVICES" << setw(15) << left << "TimeZone" << setw(15) << left << "Language" << endl;
 	
 	for(int i = 0; i < carListCount; i++)
 	{
-		cout << setw(20) << left << carList[i]->getCarName() << setw(25) << left << carList[i]->getMail() << setw(15) << left << carList[i]->getPersonalKey() << setw(10) << left << carList[i]->getODO() << setw(10) << left << carList[i]->getServiceRemind() << setw(30) << left << carList[i]->getGeneralIF().get_timeZone() << setw(20) << left << carList[i]->getGeneralIF().get_language() << endl;
+		cout << setw(20) << left << carList[i]->getCarName() << setw(25) << left << carList[i]->getMail() << setw(15) << left << carList[i]->getPersonalKey() << setw(10) << left << carList[i]->getODO() << setw(15) << left << carList[i]->getServiceRemind() << setw(15) << left << carList[i]->getGeneralIF().get_timeZone().substr(1,9) << setw(15) << left << carList[i]->getGeneralIF().get_language() << endl;
 	}
 	system("pause");
 }

@@ -9,29 +9,25 @@ using namespace std;
 
 class CommonInfo{
 public:
-	string getNumber() {
-		return number;	
+	int getHour() {
+		return hour;	
 	}
-	
-	string getName(){
-		return name;
+		
+	string getData() {
+		return data;
 	}
-	
-	void setNumber(string data) {
-		number = data;	
+	void setHour(int hr) {
+		hour = hr;	
 	}
-	
-	void setName(string data){
-		name = data;
-	}
-	
-	void printData(int i){
-		// Your code
+		
+	void setData(string dt){
+		data = dt;
 	}
 	
 private:
-	string number;
-	string name;		
+	int hour;
+	
+	string data;		
 };
 
 #endif // COMMON_H_
