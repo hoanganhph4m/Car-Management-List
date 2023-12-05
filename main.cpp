@@ -8,6 +8,7 @@
 #include <string>
 #include <regex>
 #include <iomanip>
+#include <sstream>
 
 
 using namespace std;
@@ -42,6 +43,8 @@ bool isValidEightDigitString(const string& input);
 bool isDigit(string test);
 int checkExistCar(string);
 void inputCarSetting(Setting* &);
+void sortCarListByName();
+bool isBiggerName(string name1, string name2);
 
 int main() {
 	downloadLanguage();
@@ -191,7 +194,7 @@ void NhapThongTinCaiDat_Sound()
 						
 			Sound newSound(med, cal, nav, noti);
 			carList[index]->setSoudIF(newSound);
-			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)";
+			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back) ";
 
 			char continues;
 			cin >> continues;
@@ -254,7 +257,7 @@ void NhapThongTinCaiDat_Sound()
 			Sound newSound(med, cal, nav, noti);
 			carList[carListCount]->setSoudIF(newSound);
 			carListCount++;
-			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)";
+			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back) ";
 
 			char continues;
 			cin >> continues;
@@ -264,6 +267,7 @@ void NhapThongTinCaiDat_Sound()
 			}
 		}
 	}
+	sortCarListByName();
 	uploadCarList();
 }
 
@@ -335,7 +339,7 @@ void NhapThongTinCaiDat_General()
 
 			General newGeneral(languageList[stoi(lan)-1], timezoneList[stoi(time)-1].getData());
 			carList[index]->setGeneralIF(newGeneral);
-			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)";
+			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back) ";
 
 			char continues;
 			cin >> continues;
@@ -394,7 +398,7 @@ void NhapThongTinCaiDat_General()
 			General newGeneral(languageList[stoi(lan) - 1], timezoneList[stoi(time) - 1].getData());
 			carList[carListCount]->setGeneralIF(newGeneral);
 			carListCount++;
-			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)";
+			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back) ";
 
 			char continues;
 			cin >> continues;
@@ -404,6 +408,7 @@ void NhapThongTinCaiDat_General()
 			}
 		}
 	}
+	sortCarListByName();
 	uploadCarList();
 }
 
@@ -444,7 +449,7 @@ void NhapThongTinCaiDat_Display()
 					cout << "Invalid, please re-enter ! " << endl;
 			}
 			while (1) {
-				cout << "Screen light level:";
+				cout << "Screen light level: ";
 				getline(cin, test);
 				if (isDigit(test) == 1)
 				{
@@ -468,7 +473,7 @@ void NhapThongTinCaiDat_Display()
 						
 			Display newDisplay(light, screen, taplo);
 			carList[index]->setDisplayIF(newDisplay);
-			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)"	;
+			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back) "	;
 			
 			char continues;
 			cin >> continues;
@@ -496,7 +501,7 @@ void NhapThongTinCaiDat_Display()
 					cout << "Invalid, please re-enter ! " << endl;
 			}
 			while (1) {
-				cout << "Screen light level:";
+				cout << "Screen light level: ";
 				getline(cin, test);
 				if (isDigit(test) == 1)
 				{
@@ -520,7 +525,7 @@ void NhapThongTinCaiDat_Display()
 			Display newDisplay(light, screen, taplo);
 			carList[carListCount]->setDisplayIF(newDisplay);
 			carListCount++;
-			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back)";
+			cout << "Will you input for next car? ('y' to continue with new display setting, press any to go back) ";
 
 			char continues;
 			cin >> continues;
@@ -530,6 +535,7 @@ void NhapThongTinCaiDat_Display()
 			}
 		}
 	}
+	sortCarListByName();
 	uploadCarList();
 }
 
@@ -552,7 +558,7 @@ void downloadTimeZone() {
 	}
 	f.close();
 
-	
+	//sort lai timezone theo mui gio
 		int i, j, last;
 		for (i = 1; i < timezoneList.size(); i++) {
 			last = timezoneList[i].getHour();
@@ -577,7 +583,7 @@ void downloadLanguage() {
 	f.close();
 	vector<string>::iterator p1 = languageList.begin();
 	vector<string>::iterator p2 = languageList.end();
-	sort(p1, p2);	
+	sort(p1, p2);	// sort lai language theo alphabet
 }
 
 void downloadCarList() {
@@ -813,4 +819,51 @@ void uploadCarList() {
 			myFile << carList[i]->getGeneralIF().get_timeZone() << endl;
 	}
 	myFile.close();
+}
+
+void sortCarListByName() {
+	int i, j;
+	
+	Car* temp;
+	for (i = 1; i < carListCount; i++) {
+		
+		temp = carList[i];
+		j = i;
+		while ((j > 0) && isBiggerName(carList[j - 1]->getCarName() , temp->getCarName())) {
+			carList[j]= carList[j - 1];
+			j = j - 1;
+		}
+		carList[j] = temp;
+	} // end for
+}
+bool isBiggerName(string name1, string name2) {
+    stringstream n1(name1);
+    stringstream n2(name2);
+    
+    vector<string> arr1; // tao vector string de luu name sau khi da dao nguoc lai
+    vector<string> arr2;
+
+    while (n1 >> name1) {
+
+        arr1.push_back(name1);
+    }
+    while (n2 >> name2) {
+
+        arr2.push_back(name2);
+    }
+    int len1 = arr1.size();
+    int len2 = arr2.size();
+
+    int minSize = (len1 > len2) ? len2 : len1;
+    
+    for (int i = 0; i < minSize; i++) {
+        if (arr1[len1 - 1 - i] == arr2[len2 - 1 - i])
+            continue;
+        return (arr1[len1 - 1 - i] > arr2[len2 - 1 - i]);
+    }
+
+    if (arr1.size() > arr2.size())
+        return true;
+    return false;
+
 }
