@@ -703,7 +703,19 @@ void XuatThongTinCaiDat_Display() {
 }
 
 void XuatThongTatCaTinCaiDat() {
-	// Your code
+	cout << "--- ALL SETTING ---" << endl;
+	for (int i = 0; i < carListCount; i++)
+	{
+		cout << setw(5) << left << i+1 << setw(20) << left << "Owner name" << setw(25) << left << "Email" << setw(15) << left << "Key number" << setw(15) << left << "ODO number" << setw(15) << left << "Remind service (km)" << endl;
+		cout << setw(5) << " " << setw(20) << left << carList[i]->getCarName() << setw(25) << left << carList[i]->getMail() << setw(15) << left << carList[i]->getPersonalKey() << setw(15) << left << carList[i]->getODO() << setw(15) << left << carList[i]->getServiceRemind() << endl << endl;
+		cout << setw(5) << " " << setw(15) << left << "Display:" << setw(10) << left << "Light" << setw(15) << left << "Screen light" << setw(15) << left << "Taplo light" << endl;
+		cout << setw(5) << " " << setw(15) << " " <<  setw(10) << left << carList[i]->getDisplayIF().get_light_level() << setw(15) << left << carList[i]->getDisplayIF().get_screen_light_level() << setw(15) << left << carList[i]->getDisplayIF().get_taplo_light_level() << endl;
+		cout << setw(5) << " " << setw(15) << left << "Sound:" << setw(10) << left << "Media" << setw(10) << left << "Call" << setw(15) << left << "Navigation" << setw(15) << left << "Notification" << endl;
+		cout << setw(5) << " " << setw(15) << " " << setw(10) << left << carList[i]->getSoudIF().get_media_level() << setw(10) << left << carList[i]->getSoudIF().get_call_level() << setw(15) << left << carList[i]->getSoudIF().get_navi_level() << setw(15) << left << carList[i]->getSoudIF().get_notification_level() << endl;
+		cout << setw(5) << " " << setw(15) << left << "General:" << setw(15) << left << "Timezone" << setw(15) << left << "Language" << endl;
+		cout << setw(5) << " " << setw(15) << " " << setw(15) << left << carList[i]->getGeneralIF().get_timeZone().substr(1, 9) << setw(15) << left << carList[i]->getGeneralIF().get_language() << endl;
+	}
+	system("pause");
 }
 
 bool isValidEmail(const std::string& email) {  // Biểu thức chính quy để kiểm tra địa chỉ email
