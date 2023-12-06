@@ -552,22 +552,23 @@ void downloadTimeZone() {
 		CommonInfo info;
 		info.setData(a);
 		string hour = a.substr(4, 6) + a.substr(8, 9);
-		hour.erase(3, 1);
+		
 		info.setHour(stoi(hour)); // lay phan gio trong mui gio de sort lại list
 		timezoneList.push_back(info);
 	}
 	f.close();
 
 	//sort lai timezone theo mui gio
-		int i, j, last;
+		int i, j;
+		CommonInfo last;
 		for (i = 1; i < timezoneList.size(); i++) {
-			last = timezoneList[i].getHour();
+			last = timezoneList[i];
 			j = i;
-			while ((j > 0) && (timezoneList[j - 1].getHour() > last)) {
-				timezoneList[j].setHour(timezoneList[j - 1].getHour());
+			while ((j > 0) && (timezoneList[j - 1].getHour() > last.getHour())) {
+				timezoneList[j] = timezoneList[j - 1];
 				j = j - 1;
 			}
-			timezoneList[j].setHour(last);
+			timezoneList[j]= last;
 		} // end for
 	
 }
@@ -758,7 +759,7 @@ void inputCarSetting(Setting* & newCar) {
 	string key;
 	int odo;
 	int reS;
-	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //bo qua enter trong bo nho tam
 	cout << "Owner name: ";
 	getline(cin,name);
 	while (1) { // tao vong while de check email
@@ -833,7 +834,7 @@ void uploadCarList() {
 	myFile.close();
 }
 
-void sortCarListByName() {
+void sortCarListByName() {	//sap xep lai danh sach cua xe theo ten chu voi thu tu la bang chu cai alphabet
 	int i, j;
 	
 	Car* temp;
@@ -848,14 +849,14 @@ void sortCarListByName() {
 		carList[j] = temp;
 	} // end for
 }
-bool isBiggerName(string name1, string name2) {
+bool isBiggerName(string name1, string name2) { // so sanh ten chu xe theo thu tu alphabat tu ten den ten dem roi den ho
     stringstream n1(name1);
     stringstream n2(name2);
     
     vector<string> arr1; // tao vector string de luu name sau khi da dao nguoc lai
     vector<string> arr2;
 
-    while (n1 >> name1) {
+    while (n1 >> name1) { // dung stringstream de tach tung tu trong ten roi dua vao vector<string>
 
         arr1.push_back(name1);
     }
